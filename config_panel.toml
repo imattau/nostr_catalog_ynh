@@ -1,9 +1,9 @@
 version = "1.0"
 
 [main]
-    [main.catalogue]
-        name.en = "Catalogue"
+    name.en = "Catalogue"
 
+    [main.catalogue]
         [main.catalogue.relays]
         ask.en = "Nostr relays"
         help.en = "Comma-separated relay URLs, for example wss://relay.example"
@@ -33,33 +33,36 @@ version = "1.0"
         default = 1
         bind = "null"
 
-    [main.publisher]
-        name.en = "Publisher"
+[publisher]
+    name.en = "Publisher"
 
-        [main.publisher.publisher_npub]
+    [publisher.identity]
+        name.en = "Publisher identity"
+
+        [publisher.identity.publisher_npub]
         ask.en = "Publisher identity"
         help.en = "Add this npub to trusted publishers on other catalogue servers"
         type = "string"
         bind = "null"
         readonly = true
 
-    [main.publish]
+    [publisher.publish]
         name.en = "Publish an application"
 
-        [main.publish.repository_url]
+        [publisher.publish.repository_url]
         ask.en = "YunoHost app repository URL"
         help.en = "HTTPS URL of a repository containing manifest.toml"
         type = "url"
         bind = "null"
 
-        [main.publish.ref]
+        [publisher.publish.ref]
         ask.en = "Git ref"
         help.en = "Branch, tag, or commit to publish"
         type = "string"
         default = "main"
         bind = "null"
 
-        [main.publish.publish]
+        [publisher.publish.publish]
         ask.en = "Publish signed declaration"
         help.en = "Verify the repository, sign its current declaration, and publish it to the configured relays"
         type = "button"
