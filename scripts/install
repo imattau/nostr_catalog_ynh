@@ -1,0 +1,35 @@
+#!/bin/bash
+
+source "$(dirname "$0")/_common.sh"
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+ynh_script_progression "Installing nostr-catalogd..."
+ynh_setup_source --dest_dir="$install_dir"
+
+if [ ! -x "$install_dir/nostr-catalogd" ]; then
+	ynh_die "The core release did not contain nostr-catalogd"
+fi
+
+chmod 750 "$install_dir"
+chmod 750 "$install_dir/nostr-catalogd" "$install_dir/nostr-ynh"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:$app" "$install_dir"
+
+install -d -m 0750 /var/lib/nostr-catalogd
+chown "$app:$app" /var/lib/nostr-catalogd
+
+ynh_app_setting_set --app="$app" --key=relays --value="${relays:-wss://relay.damus.io,wss://nos.lol}"
+ynh_app_setting_set --app="$app" --key=trusted_publishers --value="${trusted_publishers:-}"
+ynh_app_setting_set --app="$app" --key=trusted_curators --value="${trusted_curators:-}"
+ynh_app_setting_set --app="$app" --key=minimum_endorsements --value="${minimum_endorsements:-1}"
+render_daemon_env
+
+ynh_add_config --template="apps_catalog.yml" --destination="/etc/yunohost/apps_catalog.yml"
+
+yunohost service add "$service_name" --description="Nostr-backed YunoHost application catalogue"
+ynh_add_systemd_config
+ynh_systemd_action --service_name="$service_name" --action="start"
+
+ynh_script_progression "Installation complete"

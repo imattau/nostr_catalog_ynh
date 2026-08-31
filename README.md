@@ -14,8 +14,8 @@ Wrapper metadata and the systemd template are checked in CI on every change.
 ## Status
 
 Packaging scaffold with manifest, configuration panel, daemon environment
-renderer, and systemd service template. The lifecycle scripts remain gated on
-the first published core binary release.
+renderer, systemd service, and lifecycle scripts. The first core binary
+release is now published and pinned in `manifest.toml`.
 
 The configuration panel stores settings through YunoHost and renders them into
 `/etc/nostr-catalogd/nostr-catalogd.env`; the daemon reads those settings at
@@ -29,8 +29,6 @@ repository. The package should pin a core release and verify its checksum.
 The core release workflow publishes `SHA256SUMS` alongside the
 architecture-specific archives; the wrapper should copy the matching digest
 into its `resources.sources.main` entry.
-Until that repository has a published release, this wrapper deliberately does
-not claim to be installable: adding a guessed URL or checksum would make the
-package unsafe to distribute. The next packaging step is to pin the matching
-`nostr-catalogd` archive for each supported architecture in `manifest.toml`,
-then add install/remove/upgrade scripts around `ynh_setup_source`.
+The wrapper pins the matching `nostr-catalogd` archive for each supported
+architecture in `manifest.toml`, and its lifecycle scripts install, upgrade,
+and remove the daemon around `ynh_setup_source`.

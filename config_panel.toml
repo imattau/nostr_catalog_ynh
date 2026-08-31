@@ -8,6 +8,7 @@ version = "1.0"
         ask.en = "Nostr relays"
         help.en = "Comma-separated relay URLs, for example wss://relay.example"
         type = "string"
+        default = "wss://relay.damus.io,wss://nos.lol"
         bind = "null"
 
         [main.catalogue.trusted_publishers]

@@ -3,6 +3,7 @@
 app="nostr_catalog"
 install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
+service_name="$app"
 
 render_daemon_env() {
 	local relays trusted_publishers trusted_curators minimum_endorsements
@@ -11,6 +12,9 @@ render_daemon_env() {
 	trusted_curators="$(ynh_app_setting_get --app="$app" --key=trusted_curators)"
 	minimum_endorsements="$(ynh_app_setting_get --app="$app" --key=minimum_endorsements)"
 	minimum_endorsements="${minimum_endorsements:-1}"
+	if ! [[ "$minimum_endorsements" =~ ^[1-9][0-9]*$ ]]; then
+		ynh_die "minimum_endorsements must be a positive integer"
+	fi
 
 	install -d -m 0750 "$(dirname "$env_file")"
 	{

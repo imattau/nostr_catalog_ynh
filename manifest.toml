@@ -20,3 +20,22 @@ sso = false
 disk = "100M"
 ram.build = "50M"
 ram.runtime = "100M"
+
+[resources]
+    [resources.sources.main]
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.0/nostr-yunohost-linux-amd64.tar.gz"
+        sha256 = "3702dbac97195432adb1a878cf147afdad6ea234ccd67be5137e3161ffc2bae5"
+        format = "tar.gz"
+        extract = true
+        autoupdate.strategy = "latest_github_release"
+        autoupdate.asset = "nostr-yunohost-linux-amd64.tar.gz"
+
+        [resources.sources.main.arm64]
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.0/nostr-yunohost-linux-arm64.tar.gz"
+        sha256 = "2fd396afd9dc13ddff2397bcf55baa27cca28d1aa9ef776e68441cf8d771b223"
+
+        [resources.sources.main.armhf]
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.0/nostr-yunohost-linux-armv7.tar.gz"
+        sha256 = "7841164ed6cf565dedc6fe8318b4d7274cdfb25d7ae3c9caaa8937e3c178eebf"
+
+    [resources.system_user]

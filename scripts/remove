@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source "$(dirname "$0")/_common.sh"
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+ynh_script_progression "Stopping nostr-catalogd..."
+ynh_systemd_action --service_name="$service_name" --action="stop" || true
+yunohost service remove "$service_name" || true
+ynh_remove_systemd_config
+
+ynh_secure_remove --file="$install_dir"
+ynh_secure_remove --file="/var/lib/nostr-catalogd"
+ynh_secure_remove --file="$env_file"
+
+ynh_script_progression "Removal complete"
