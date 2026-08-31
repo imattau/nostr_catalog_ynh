@@ -21,6 +21,10 @@ disk = "100M"
 ram.build = "50M"
 ram.runtime = "100M"
 
+# This app has no installation questions: it is a loopback-only daemon whose
+# settings are exposed through config_panel.toml.
+[install]
+
 [resources]
     [resources.sources.main]
         url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.5/nostr-yunohost-linux-amd64.tar.gz"
@@ -39,3 +43,9 @@ ram.runtime = "100M"
         sha256 = "21ad43a0cd28ee005c9297218c019eb896fc24c4315f054d72c14540fa7b1c77"
 
     [resources.system_user]
+
+    [resources.install_dir]
+        dir = "/var/lib/nostr-catalogd"
+
+    [resources.apt]
+        packages = "git, jq"

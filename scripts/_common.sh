@@ -1,6 +1,6 @@
 #!/bin/bash
 
-app="nostr_catalog"
+app="${YNH_APP_ID}"
 install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
 service_name="$app"

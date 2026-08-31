@@ -1,0 +1,5 @@
+test_format = 1.0
+
+# The app has no install questions. Runtime and install smoke tests are kept
+# in CI and should be expanded when a YunoHost test server is available.
+[default]
