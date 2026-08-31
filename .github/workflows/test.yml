@@ -1,0 +1,29 @@
+name: Validate YunoHost wrapper
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate TOML
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          for path in ("manifest.toml", "config_panel.toml"):
+              with open(path, "rb") as handle:
+                  tomllib.load(handle)
+          print("TOML OK")
+          PY
+
+      - name: Validate service template
+        run: |
+          sed 's#^ExecStart=.*#ExecStart=/bin/true#' nostr-catalogd.service > /tmp/nostr-catalogd.service
+          systemd-analyze verify /tmp/nostr-catalogd.service

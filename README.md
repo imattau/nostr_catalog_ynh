@@ -9,6 +9,8 @@ YunoHost-compatible `/v3/apps.json` endpoint.
 
 The wrapper does not replace YunoHost installation or app lifecycle tooling.
 
+Wrapper metadata and the systemd template are checked in CI on every change.
+
 ## Status
 
 Initial packaging scaffold. Install/remove/upgrade scripts and the YunoHost
