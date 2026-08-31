@@ -29,4 +29,4 @@ jobs:
           systemd-analyze verify /tmp/nostr_catalog.service
 
       - name: Validate shell scripts
-        run: bash -n scripts/_common.sh scripts/config scripts/install scripts/remove scripts/upgrade
+        run: bash -n scripts/_common.sh scripts/config scripts/install scripts/remove scripts/upgrade scripts/backup scripts/restore

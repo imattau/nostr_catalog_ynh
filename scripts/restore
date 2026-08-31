@@ -1,0 +1,19 @@
+#!/bin/bash
+
+source "$(dirname "$0")/_common.sh"
+source /usr/share/yunohost/helpers
+
+ynh_systemd_action --service_name="$service_name" --action="stop" || true
+ynh_restore_file --origin_path="$install_dir" --dest_path="$install_dir"
+ynh_restore_file --origin_path="/etc/nostr-catalogd" --dest_path="/etc/nostr-catalogd"
+ynh_restore_file --origin_path="$catalog_config" --dest_path="$catalog_config"
+ynh_restore_file --origin_path="/etc/systemd/system/$service_name.service" --dest_path="/etc/systemd/system/$service_name.service"
+
+chmod 750 "$install_dir"
+chmod 750 "$install_dir/nostr-catalogd" "$install_dir/nostr-ynh"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:$app" "$install_dir"
+chmod 0600 "$publisher_key_file"
+chmod 0644 "$publisher_npub_file"
+systemctl daemon-reload
+ynh_systemd_action --service_name="$service_name" --action="start"

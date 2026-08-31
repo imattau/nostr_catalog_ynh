@@ -17,6 +17,9 @@ Packaging scaffold with manifest, configuration panel, daemon environment
 renderer, systemd service, and lifecycle scripts. The first core binary
 release is now published and pinned in `manifest.toml`.
 
+The wrapper also supplies YunoHost backup and restore scripts so upgrades can
+create the required safety backup before changing the daemon.
+
 The configuration panel stores settings through YunoHost and renders them into
 `/etc/nostr-catalogd/nostr-catalogd.env`; the daemon reads those settings at
 startup.
