@@ -3,7 +3,7 @@ packaging_format = 2
 id = "nostr_catalog"
 name = "Nostr YunoHost Catalogue"
 description.en = "Decentralised YunoHost application catalogue using Nostr"
-version = "0.1~ynh7"
+version = "0.1~ynh8"
 maintainers = ["Nostr YunoHost contributors"]
 
 [upstream]
