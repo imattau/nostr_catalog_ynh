@@ -27,3 +27,6 @@ jobs:
         run: |
           sed 's#^ExecStart=.*#ExecStart=/bin/true#' nostr-catalogd.service > /tmp/nostr-catalogd.service
           systemd-analyze verify /tmp/nostr-catalogd.service
+
+      - name: Validate shell scripts
+        run: bash -n scripts/_common.sh scripts/config

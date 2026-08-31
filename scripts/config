@@ -1,0 +1,48 @@
+#!/bin/bash
+
+source "$(dirname "$0")/_common.sh"
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+get__relays() {
+	ynh_app_setting_get --app="$app" --key=relays
+}
+
+set__relays() {
+	ynh_app_setting_set --app="$app" --key=relays --value="$relays"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart nostr-catalogd.service
+}
+
+get__trusted_publishers() {
+	ynh_app_setting_get --app="$app" --key=trusted_publishers
+}
+
+set__trusted_publishers() {
+	ynh_app_setting_set --app="$app" --key=trusted_publishers --value="$trusted_publishers"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart nostr-catalogd.service
+}
+
+get__trusted_curators() {
+	ynh_app_setting_get --app="$app" --key=trusted_curators
+}
+
+set__trusted_curators() {
+	ynh_app_setting_set --app="$app" --key=trusted_curators --value="$trusted_curators"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart nostr-catalogd.service
+}
+
+get__minimum_endorsements() {
+	ynh_app_setting_get --app="$app" --key=minimum_endorsements
+}
+
+set__minimum_endorsements() {
+	ynh_app_setting_set --app="$app" --key=minimum_endorsements --value="$minimum_endorsements"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart nostr-catalogd.service
+}
+
+ynh_app_config_run "$1"
