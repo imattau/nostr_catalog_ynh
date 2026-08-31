@@ -5,8 +5,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=nostr-catalog
-Group=nostr-catalog
+User=nostr_catalog
+Group=nostr_catalog
 EnvironmentFile=-/etc/nostr-catalogd/nostr-catalogd.env
 ExecStart=/usr/bin/nostr-catalogd --listen 127.0.0.1:8090 --cache /var/lib/nostr-catalogd/catalogue-cache.json
 Restart=on-failure

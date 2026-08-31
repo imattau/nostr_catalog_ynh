@@ -13,14 +13,21 @@ Wrapper metadata and the systemd template are checked in CI on every change.
 
 ## Status
 
-Initial packaging scaffold. Install/remove/upgrade scripts and the YunoHost
-configuration panel are next.
+Packaging scaffold with manifest, configuration panel, daemon environment
+renderer, and systemd service template. The lifecycle scripts remain gated on
+the first published core binary release.
 
-The initial configuration panel is now defined in `config_panel.toml`; install
-scripts must render its stored values into `/etc/nostr-catalogd/nostr-catalogd.env`.
+The configuration panel stores settings through YunoHost and renders them into
+`/etc/nostr-catalogd/nostr-catalogd.env`; the daemon reads those settings at
+startup.
 
 ## Core dependency
 
 Release binaries are produced by the
 [`nostr-yunohost`](https://github.com/nostr-yunohost/nostr-yunohost) core
 repository. The package should pin a core release and verify its checksum.
+Until that repository has a published release, this wrapper deliberately does
+not claim to be installable: adding a guessed URL or checksum would make the
+package unsafe to distribute. The next packaging step is to pin the matching
+`nostr-catalogd` archive for each supported architecture in `manifest.toml`,
+then add install/remove/upgrade scripts around `ynh_setup_source`.
