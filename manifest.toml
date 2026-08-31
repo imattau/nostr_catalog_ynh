@@ -3,7 +3,7 @@ packaging_format = 2
 id = "nostr_catalog"
 name = "Nostr YunoHost Catalogue"
 description.en = "Decentralised YunoHost application catalogue using Nostr"
-version = "0.1~ynh10"
+version = "0.1~ynh11"
 maintainers = ["Nostr YunoHost contributors"]
 
 [upstream]
@@ -23,19 +23,19 @@ ram.runtime = "100M"
 
 [resources]
     [resources.sources.main]
-        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.1/nostr-yunohost-linux-amd64.tar.gz"
-        sha256 = "ed561d03ce6a7ddcef3f9b9fe1029dcf83921befaec46af1102276b0224382f2"
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.2/nostr-yunohost-linux-amd64.tar.gz"
+        sha256 = "1f5721ebafb2635ee419106410a10b1b95843044cfe797f435a83ae80889ad30"
         format = "tar.gz"
         extract = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset = "nostr-yunohost-linux-amd64.tar.gz"
 
         [resources.sources.main.arm64]
-        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.1/nostr-yunohost-linux-arm64.tar.gz"
-        sha256 = "760cd97cbda229f6cacf20c599208dbb1cedea8f379eefa726369077e96f481e"
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.2/nostr-yunohost-linux-arm64.tar.gz"
+        sha256 = "441df5e417e55855d8b1e2f5b6159bb3070c79ea723d0cdaf4c2b1eba5a1afa4"
 
         [resources.sources.main.armhf]
-        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.1/nostr-yunohost-linux-armv7.tar.gz"
-        sha256 = "e488b06c2e52f2bb348abfef78355fdd58c7088213d3998768f15e6d07af94e4"
+        url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.2/nostr-yunohost-linux-armv7.tar.gz"
+        sha256 = "9a7adc5baed69fb8ee7bb8ceef51ebbe87b7fa89b2437126b2e49fde3328aeac"
 
     [resources.system_user]
