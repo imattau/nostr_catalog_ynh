@@ -5,6 +5,8 @@ install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
 service_name="$app"
 catalog_config="/etc/yunohost/apps_catalog.yml"
+publisher_key_file="/etc/nostr-catalogd/publisher.key"
+publisher_npub_file="/etc/nostr-catalogd/publisher.npub"
 
 unpack_core_release() {
 	if [ ! -f "$install_dir/main" ]; then
@@ -12,6 +14,23 @@ unpack_core_release() {
 	fi
 	tar --extract --gzip --file="$install_dir/main" --directory="$install_dir"
 	rm -f "$install_dir/main"
+}
+
+ensure_publisher_key() {
+	if [ -s "$publisher_key_file" ] && [ -s "$publisher_npub_file" ]; then
+		return 0
+	fi
+	local keygen_output
+	keygen_output="$(mktemp)"
+	if ! "$install_dir/nostr-ynh" keygen >"$keygen_output"; then
+		rm -f "$keygen_output"
+		ynh_die "Could not generate the catalogue publisher identity"
+	fi
+	install -m 0600 /dev/null "$publisher_key_file"
+	install -m 0644 /dev/null "$publisher_npub_file"
+	jq -er .private_key_hex "$keygen_output" >"$publisher_key_file"
+	jq -er .npub "$keygen_output" >"$publisher_npub_file"
+	rm -f "$keygen_output"
 }
 
 update_catalog_registration() {

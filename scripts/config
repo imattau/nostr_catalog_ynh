@@ -45,4 +45,28 @@ set__minimum_endorsements() {
 	ynh_exec_warn_less systemctl restart nostr-catalogd.service
 }
 
+get__publisher_npub() {
+	cat "$publisher_npub_file"
+}
+
+run__publish() {
+	if [[ "$repository_url" != https://* || "$repository_url" == *"@"* ]]; then
+		ynh_die "The application repository must be an HTTPS URL without embedded credentials"
+	fi
+	if [ -z "${ref:-}" ]; then
+		ref="main"
+	fi
+	local relays
+	relays="$(ynh_app_setting_get --app="$app" --key=relays)"
+	if [ -z "$relays" ]; then
+		ynh_die "Configure at least one Nostr relay before publishing"
+	fi
+	ynh_print_info "Verifying and publishing $repository_url at ref $ref..."
+	"$install_dir/nostr-ynh" publish \
+		--repository-url "$repository_url" \
+		--ref "$ref" \
+		--private-key-file "$publisher_key_file" \
+		--relays "$relays"
+}
+
 ynh_app_config_run "$1"

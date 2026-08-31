@@ -15,5 +15,7 @@ update_catalog_registration remove
 ynh_secure_remove --file="$install_dir"
 ynh_secure_remove --file="/var/lib/nostr-catalogd"
 ynh_secure_remove --file="$env_file"
+ynh_secure_remove --file="$publisher_key_file"
+ynh_secure_remove --file="$publisher_npub_file"
 
 ynh_script_progression "Removal complete"

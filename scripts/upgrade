@@ -17,6 +17,7 @@ fi
 chmod 750 "$install_dir/nostr-catalogd" "$install_dir/nostr-ynh"
 chmod -R o-rwx "$install_dir"
 chown -R "$app:$app" "$install_dir"
+ensure_publisher_key
 
 render_daemon_env
 update_catalog_registration add

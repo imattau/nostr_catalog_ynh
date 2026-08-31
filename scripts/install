@@ -17,6 +17,7 @@ chmod 750 "$install_dir"
 chmod 750 "$install_dir/nostr-catalogd" "$install_dir/nostr-ynh"
 chmod -R o-rwx "$install_dir"
 chown -R "$app:$app" "$install_dir"
+ensure_publisher_key
 
 install -d -m 0750 /var/lib/nostr-catalogd
 chown "$app:$app" /var/lib/nostr-catalogd

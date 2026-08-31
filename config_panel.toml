@@ -32,3 +32,37 @@ version = "1.0"
         type = "number"
         default = 1
         bind = "null"
+
+    [main.publisher]
+        name.en = "Publisher"
+
+        [main.publisher.publisher_npub]
+        ask.en = "Publisher identity"
+        help.en = "Add this npub to trusted publishers on other catalogue servers"
+        type = "string"
+        bind = "null"
+        readonly = true
+
+    [main.publish]
+        name.en = "Publish an application"
+
+        [main.publish.repository_url]
+        ask.en = "YunoHost app repository URL"
+        help.en = "HTTPS URL of a repository containing manifest.toml"
+        type = "url"
+        bind = "null"
+
+        [main.publish.ref]
+        ask.en = "Git ref"
+        help.en = "Branch, tag, or commit to publish"
+        type = "string"
+        default = "main"
+        bind = "null"
+
+        [main.publish.publish]
+        ask.en = "Publish signed declaration"
+        help.en = "Verify the repository, sign its current declaration, and publish it to the configured relays"
+        type = "button"
+        style = "success"
+        icon = "upload"
+        enabled = "repository_url"

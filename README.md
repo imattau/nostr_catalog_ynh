@@ -21,6 +21,11 @@ The configuration panel stores settings through YunoHost and renders them into
 `/etc/nostr-catalogd/nostr-catalogd.env`; the daemon reads those settings at
 startup.
 
+The Publisher section generates a dedicated publishing identity. Administrators
+can paste a HTTPS YunoHost app repository URL and Git ref into the Publish an
+application action; the wrapper verifies the repository and publishes its
+signed declaration through the configured relays.
+
 ## Core dependency
 
 Release binaries are produced by the
