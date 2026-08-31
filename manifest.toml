@@ -1,0 +1,22 @@
+packaging_format = 2
+
+id = "nostr_catalog"
+name = "Nostr YunoHost Catalogue"
+description.en = "Decentralised YunoHost application catalogue using Nostr"
+version = "0.1~ynh1"
+maintainers = ["Nostr YunoHost contributors"]
+
+[upstream]
+license = "AGPL-3.0-or-later"
+website = "https://github.com/nostr-yunohost/nostr-yunohost"
+code = "https://github.com/nostr-yunohost/nostr-yunohost"
+
+[integration]
+yunohost = ">= 12.0"
+architectures = ["amd64", "arm64", "armhf"]
+multi_instance = false
+ldap = false
+sso = false
+disk = "100M"
+ram.build = "50M"
+ram.runtime = "100M"
