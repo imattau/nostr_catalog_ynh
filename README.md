@@ -26,6 +26,9 @@ startup.
 Release binaries are produced by the
 [`nostr-yunohost`](https://github.com/nostr-yunohost/nostr-yunohost) core
 repository. The package should pin a core release and verify its checksum.
+The core release workflow publishes `SHA256SUMS` alongside the
+architecture-specific archives; the wrapper should copy the matching digest
+into its `resources.sources.main` entry.
 Until that repository has a published release, this wrapper deliberately does
 not claim to be installable: adding a guessed URL or checksum would make the
 package unsafe to distribute. The next packaging step is to pin the matching
