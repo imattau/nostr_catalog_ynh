@@ -4,6 +4,7 @@ app="nostr_catalog"
 install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
 service_name="$app"
+catalog_config="/etc/yunohost/apps_catalog.yml"
 
 unpack_core_release() {
 	if [ ! -f "$install_dir/main" ]; then
@@ -11,6 +12,47 @@ unpack_core_release() {
 	fi
 	tar --extract --gzip --file="$install_dir/main" --directory="$install_dir"
 	rm -f "$install_dir/main"
+}
+
+update_catalog_registration() {
+	local action="$1"
+	python3 - "$catalog_config" "$action" <<'PY'
+import os
+import sys
+import tempfile
+
+import yaml
+
+path, action = sys.argv[1:]
+default = [{"id": "default", "url": "https://app.yunohost.org/default"}]
+
+if os.path.exists(path):
+    with open(path, encoding="utf-8") as handle:
+        catalogs = yaml.safe_load(handle) or []
+else:
+    catalogs = default
+
+if not isinstance(catalogs, list):
+    raise SystemExit(f"{path} must contain a YAML list")
+catalogs = [entry for entry in catalogs if isinstance(entry, dict) and entry.get("id") != "nostr"]
+if action == "add":
+    catalogs.append({"id": "nostr", "url": "http://127.0.0.1:8090"})
+elif catalogs == default:
+    if os.path.exists(path):
+        os.unlink(path)
+    raise SystemExit(0)
+
+directory = os.path.dirname(path)
+fd, temporary = tempfile.mkstemp(prefix="apps_catalog.", dir=directory, text=True)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        yaml.safe_dump(catalogs, handle, default_flow_style=False, sort_keys=False)
+    os.chmod(temporary, 0o640)
+    os.replace(temporary, path)
+finally:
+    if os.path.exists(temporary):
+        os.unlink(temporary)
+PY
 }
 
 render_daemon_env() {

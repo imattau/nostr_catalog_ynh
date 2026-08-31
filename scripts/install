@@ -27,7 +27,10 @@ ynh_app_setting_set --app="$app" --key=trusted_curators --value="${trusted_curat
 ynh_app_setting_set --app="$app" --key=minimum_endorsements --value="${minimum_endorsements:-1}"
 render_daemon_env
 
-ynh_add_config --template="apps_catalog.yml" --destination="/etc/yunohost/apps_catalog.yml"
+if [ ! -e "$catalog_config" ]; then
+	ynh_app_setting_set --app="$app" --key=catalog_config_created --value=1
+fi
+update_catalog_registration add
 
 yunohost service add "$service_name" --description="Nostr-backed YunoHost application catalogue"
 ynh_add_systemd_config

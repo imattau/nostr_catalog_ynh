@@ -1,4 +1,0 @@
-- id: default
-  url: https://app.yunohost.org/default
-- id: nostr
-  url: http://127.0.0.1:8090
