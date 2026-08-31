@@ -25,7 +25,7 @@ jobs:
 
       - name: Validate service template
         run: |
-          sed 's#^ExecStart=.*#ExecStart=/bin/true#' nostr_catalog.service > /tmp/nostr_catalog.service
+          sed 's#^ExecStart=.*#ExecStart=/bin/true#' conf/systemd.service > /tmp/nostr_catalog.service
           systemd-analyze verify /tmp/nostr_catalog.service
 
       - name: Validate shell scripts
