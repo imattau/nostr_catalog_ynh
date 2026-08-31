@@ -1,0 +1,33 @@
+version = "1.0"
+
+[main]
+    [main.catalogue]
+        name.en = "Catalogue"
+
+        [main.catalogue.relays]
+        ask.en = "Nostr relays"
+        help.en = "Comma-separated relay URLs, for example wss://relay.example"
+        type = "string"
+        bind = "null"
+
+        [main.catalogue.trusted_publishers]
+        ask.en = "Trusted publisher keys"
+        help.en = "Comma-separated npub or hex public keys"
+        type = "string"
+        bind = "null"
+
+    [main.curation]
+        name.en = "Curation"
+
+        [main.curation.trusted_curators]
+        ask.en = "Trusted curator keys"
+        help.en = "Comma-separated npub or hex public keys; leave empty to disable curation"
+        type = "string"
+        bind = "null"
+
+        [main.curation.minimum_endorsements]
+        ask.en = "Minimum endorsements"
+        help.en = "Required trusted endorsements for canonical app selection"
+        type = "number"
+        default = 1
+        bind = "null"

@@ -14,6 +14,9 @@ The wrapper does not replace YunoHost installation or app lifecycle tooling.
 Initial packaging scaffold. Install/remove/upgrade scripts and the YunoHost
 configuration panel are next.
 
+The initial configuration panel is now defined in `config_panel.toml`; install
+scripts must render its stored values into `/etc/nostr-catalogd/nostr-catalogd.env`.
+
 ## Core dependency
 
 Release binaries are produced by the
