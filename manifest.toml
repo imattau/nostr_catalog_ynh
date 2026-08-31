@@ -3,7 +3,7 @@ packaging_format = 2
 id = "nostr_catalog"
 name = "Nostr YunoHost Catalogue"
 description.en = "Decentralised YunoHost application catalogue using Nostr"
-version = "0.1~ynh1"
+version = "0.1~ynh2"
 maintainers = ["Nostr YunoHost contributors"]
 
 [upstream]
@@ -26,7 +26,7 @@ ram.runtime = "100M"
         url = "https://github.com/imattau/nostr-yunohost/releases/download/v0.1.0/nostr-yunohost-linux-amd64.tar.gz"
         sha256 = "3702dbac97195432adb1a878cf147afdad6ea234ccd67be5137e3161ffc2bae5"
         format = "tar.gz"
-        extract = true
+        extract = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset = "nostr-yunohost-linux-amd64.tar.gz"
 

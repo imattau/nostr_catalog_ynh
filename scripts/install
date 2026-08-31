@@ -7,6 +7,7 @@ ynh_abort_if_errors
 
 ynh_script_progression "Installing nostr-catalogd..."
 ynh_setup_source --dest_dir="$install_dir"
+unpack_core_release
 
 if [ ! -x "$install_dir/nostr-catalogd" ]; then
 	ynh_die "The core release did not contain nostr-catalogd"

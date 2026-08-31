@@ -5,6 +5,14 @@ install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
 service_name="$app"
 
+unpack_core_release() {
+	if [ ! -f "$install_dir/main" ]; then
+		return 0
+	fi
+	tar --extract --gzip --file="$install_dir/main" --directory="$install_dir"
+	rm -f "$install_dir/main"
+}
+
 render_daemon_env() {
 	local relays trusted_publishers trusted_curators minimum_endorsements
 	relays="$(ynh_app_setting_get --app="$app" --key=relays)"
