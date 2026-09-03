@@ -17,6 +17,9 @@ unpack_core_release() {
 }
 
 ensure_publisher_key() {
+	# The key files live outside the install_dir and may not exist on a fresh
+	# install. Create their parent directory before install(1) opens them.
+	install -d -m 0750 "$(dirname "$publisher_key_file")"
 	if [ -s "$publisher_key_file" ] && [ -s "$publisher_npub_file" ]; then
 		return 0
 	fi
