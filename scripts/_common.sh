@@ -4,9 +4,26 @@ app="${YNH_APP_ID}"
 install_dir="/var/lib/nostr-catalogd"
 env_file="/etc/nostr-catalogd/nostr-catalogd.env"
 service_name="$app"
+refresh_service_name="${app}-refresh"
+refresh_timer_name="${app}-refresh.timer"
+refresh_service_path="/etc/systemd/system/${refresh_service_name}.service"
+refresh_timer_path="/etc/systemd/system/${refresh_timer_name}"
 catalog_config="/etc/yunohost/apps_catalog.yml"
 publisher_key_file="/etc/nostr-catalogd/publisher.key"
 publisher_npub_file="/etc/nostr-catalogd/publisher.npub"
+
+install_refresh_timer() {
+	install -m 0644 "$(dirname "$0")/../conf/nostr_catalog-refresh.service" "$refresh_service_path"
+	install -m 0644 "$(dirname "$0")/../conf/nostr_catalog-refresh.timer" "$refresh_timer_path"
+	systemctl daemon-reload
+	systemctl enable --now "$refresh_timer_name"
+}
+
+remove_refresh_timer() {
+	systemctl disable --now "$refresh_timer_name" || true
+	rm -f "$refresh_timer_path" "$refresh_service_path"
+	systemctl daemon-reload
+}
 
 normalize_key_list() {
 	printf '%s\n' "$1" |

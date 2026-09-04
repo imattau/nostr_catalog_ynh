@@ -33,6 +33,17 @@ version = "1.0"
         default = 1
         bind = "null"
 
+    [main.discovery]
+        name.en = "Discovery"
+
+        [main.discovery.refresh]
+        ask.en = "Refresh catalogue now"
+        help.en = "Restart the catalogue service to perform a fresh relay fetch"
+        type = "button"
+        style = "success"
+        icon = "refresh-cw"
+        bind = "null"
+
 [publisher]
     name.en = "Publisher"
 

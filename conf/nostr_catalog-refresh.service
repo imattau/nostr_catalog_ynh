@@ -1,0 +1,6 @@
+[Unit]
+Description=Refresh Nostr YunoHost catalogue
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart nostr_catalog.service

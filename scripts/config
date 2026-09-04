@@ -47,6 +47,10 @@ set__minimum_endorsements() {
 	ynh_exec_warn_less systemctl restart "$service_name.service"
 }
 
+run__refresh() {
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
 get__publisher_npub() {
 	cat "$publisher_npub_file"
 }

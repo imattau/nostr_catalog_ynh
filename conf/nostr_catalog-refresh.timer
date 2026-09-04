@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically refresh Nostr YunoHost catalogue
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=1h
+Persistent=true
+Unit=nostr_catalog-refresh.service
+
+[Install]
+WantedBy=timers.target

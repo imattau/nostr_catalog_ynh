@@ -36,5 +36,6 @@ update_catalog_registration add
 yunohost service add "$service_name" --description="Nostr-backed YunoHost application catalogue"
 ynh_add_systemd_config
 ynh_systemd_action --service_name="$service_name" --action="start"
+install_refresh_timer
 
 ynh_script_progression "Installation complete"

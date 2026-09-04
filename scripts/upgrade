@@ -23,5 +23,6 @@ render_daemon_env
 update_catalog_registration add
 ynh_add_systemd_config
 ynh_systemd_action --service_name="$service_name" --action="start"
+install_refresh_timer
 
 ynh_script_progression "Upgrade complete"
