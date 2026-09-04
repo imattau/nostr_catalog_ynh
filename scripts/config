@@ -16,20 +16,22 @@ set__relays() {
 }
 
 get__trusted_publishers() {
-	ynh_app_setting_get --app="$app" --key=trusted_publishers
+	display_key_list "$(ynh_app_setting_get --app="$app" --key=trusted_publishers)"
 }
 
 set__trusted_publishers() {
+	trusted_publishers="$(normalize_key_list "$trusted_publishers")"
 	ynh_app_setting_set --app="$app" --key=trusted_publishers --value="$trusted_publishers"
 	render_daemon_env
 	ynh_exec_warn_less systemctl restart "$service_name.service"
 }
 
 get__trusted_curators() {
-	ynh_app_setting_get --app="$app" --key=trusted_curators
+	display_key_list "$(ynh_app_setting_get --app="$app" --key=trusted_curators)"
 }
 
 set__trusted_curators() {
+	trusted_curators="$(normalize_key_list "$trusted_curators")"
 	ynh_app_setting_set --app="$app" --key=trusted_curators --value="$trusted_curators"
 	render_daemon_env
 	ynh_exec_warn_less systemctl restart "$service_name.service"

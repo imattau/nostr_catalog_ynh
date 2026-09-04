@@ -13,8 +13,8 @@ version = "1.0"
 
         [main.catalogue.trusted_publishers]
         ask.en = "Trusted publisher keys"
-        help.en = "Comma-separated npub or hex public keys"
-        type = "string"
+        help.en = "One npub or hex public key per line; remove a line to stop trusting that publisher"
+        type = "text"
         bind = "null"
 
     [main.curation]
@@ -22,8 +22,8 @@ version = "1.0"
 
         [main.curation.trusted_curators]
         ask.en = "Trusted curator keys"
-        help.en = "Comma-separated npub or hex public keys; leave empty to disable curation"
-        type = "string"
+        help.en = "One npub or hex public key per line; leave empty to disable curation"
+        type = "text"
         bind = "null"
 
         [main.curation.minimum_endorsements]

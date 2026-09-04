@@ -8,6 +8,17 @@ catalog_config="/etc/yunohost/apps_catalog.yml"
 publisher_key_file="/etc/nostr-catalogd/publisher.key"
 publisher_npub_file="/etc/nostr-catalogd/publisher.npub"
 
+normalize_key_list() {
+	printf '%s\n' "$1" |
+		tr ',' '\n' |
+		sed '/^[[:space:]]*$/d; s/^[[:space:]]*//; s/[[:space:]]*$//' |
+		paste -sd, -
+}
+
+display_key_list() {
+	normalize_key_list "$1" | tr ',' '\n'
+}
+
 unpack_core_release() {
 	if [ ! -f "$install_dir/main" ]; then
 		return 0
