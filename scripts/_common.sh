@@ -27,8 +27,7 @@ remove_refresh_timer() {
 
 normalize_key_list() {
 	printf '%s\n' "$1" |
-		tr ',' '\n' |
-		sed '/^[[:space:]]*$/d; s/^[[:space:]]*//; s/[[:space:]]*$//' |
+		awk '{ gsub(/,/, " "); for (i = 1; i <= NF; i++) print $i }' |
 		paste -sd, -
 }
 
