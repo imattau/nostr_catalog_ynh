@@ -48,6 +48,12 @@ set__minimum_endorsements() {
 }
 
 run__refresh() {
+	# Also regenerate the installed-app snapshot the attestation admin page
+	# reads (normally the root-run refresh timer's job) - otherwise this
+	# button only refreshes the catalogue's own relay-fetched declarations
+	# and leaves that page showing whatever the timer last wrote, possibly
+	# hours stale.
+	"$snapshot_script_path" || true
 	ynh_exec_warn_less systemctl restart "$service_name.service"
 }
 
