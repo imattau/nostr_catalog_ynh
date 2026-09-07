@@ -27,6 +27,9 @@ ynh_app_setting_set --app="$app" --key=trusted_publishers --value="${trusted_pub
 ynh_app_setting_set --app="$app" --key=trusted_curators --value="${trusted_curators:-}"
 ynh_app_setting_set --app="$app" --key=minimum_endorsements --value="${minimum_endorsements:-1}"
 ynh_app_setting_set --app="$app" --key=attestation_policy --value="${attestation_policy:-off}"
+ynh_app_setting_set --app="$app" --key=minimum_attestations --value="${minimum_attestations:-1}"
+ynh_app_setting_set --app="$app" --key=required_checks --value="${required_checks:-}"
+ynh_app_setting_set --app="$app" --key=trusted_verifiers --value="${trusted_verifiers:-}"
 render_daemon_env
 
 if [ ! -e "$catalog_config" ]; then
