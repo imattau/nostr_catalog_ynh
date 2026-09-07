@@ -46,20 +46,20 @@ version = "1.0"
 
         [main.trust.minimum_attestations]
         ask.en = "Minimum attestations"
-        help.en = "Independent verifiers that must each attest a passing (or required-checks-satisfying) result before a revision counts as verified."
+        help.en = "Only affects prefer/require above, not off. Independent verifiers that must each attest a passing (or required-checks-satisfying) result before a revision counts as verified."
         type = "number"
         default = 1
         bind = "null"
 
         [main.trust.required_checks]
         ask.en = "Required checks"
-        help.en = "One check name per line (e.g. package_check). When set, an attestation is acceptable only if every named check individually passed - its overall result is ignored, so an unrelated advisory check (e.g. vulnerability_scan) may still fail. Leave empty to judge only the overall result."
+        help.en = "Only affects prefer/require above, not off. One check name per line (e.g. package_check). When set, an attestation is acceptable only if every named check individually passed - its overall result is ignored, so an unrelated advisory check (e.g. vulnerability_scan) may still fail. Leave empty to judge only the overall result."
         type = "text"
         bind = "null"
 
         [main.trust.trusted_verifiers]
         ask.en = "Trusted verifiers"
-        help.en = "One npub or hex public key per line; only attestations signed by one of these count toward verification. Leave empty to trust any verifier."
+        help.en = "Only affects prefer/require above, not off. One npub or hex public key per line; only attestations signed by one of these count toward verification. Leave empty to trust any verifier."
         type = "text"
         bind = "null"
 
