@@ -6,4 +6,4 @@ on:
 
 jobs:
   static-security:
-    uses: nostr-yunohost/nostr-yunohost/.github/workflows/static-security.yml@main
+    uses: imattau/nostr-yunohost/.github/workflows/static-security.yml@main
