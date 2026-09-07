@@ -47,6 +47,18 @@ set__minimum_endorsements() {
 	ynh_exec_warn_less systemctl restart "$service_name.service"
 }
 
+get__attestation_policy() {
+	local value
+	value="$(ynh_app_setting_get --app="$app" --key=attestation_policy)"
+	echo "${value:-off}"
+}
+
+set__attestation_policy() {
+	ynh_app_setting_set --app="$app" --key=attestation_policy --value="$attestation_policy"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
 run__refresh() {
 	# trigger_refresh (via the refresh systemd unit, not a direct call - see
 	# its definition in _common.sh) also regenerates the installed-app

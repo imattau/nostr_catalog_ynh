@@ -26,6 +26,7 @@ ynh_app_setting_set --app="$app" --key=relays --value="${relays:-wss://relay.dam
 ynh_app_setting_set --app="$app" --key=trusted_publishers --value="${trusted_publishers:-}"
 ynh_app_setting_set --app="$app" --key=trusted_curators --value="${trusted_curators:-}"
 ynh_app_setting_set --app="$app" --key=minimum_endorsements --value="${minimum_endorsements:-1}"
+ynh_app_setting_set --app="$app" --key=attestation_policy --value="${attestation_policy:-off}"
 render_daemon_env
 
 if [ ! -e "$catalog_config" ]; then

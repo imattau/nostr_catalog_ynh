@@ -33,6 +33,17 @@ version = "1.0"
         default = 1
         bind = "null"
 
+    [main.trust]
+        name.en = "Attestation trust policy"
+
+        [main.trust.attestation_policy]
+        ask.en = "Attestation policy"
+        help.en = "off: CI attestations are informational only. prefer: keep every app installable, but mark attested ones verified. require: exclude an app from this catalogue until it has a passing CI attestation for its exact commit."
+        type = "select"
+        choices = ["off", "prefer", "require"]
+        default = "off"
+        bind = "null"
+
     [main.discovery]
         name.en = "Discovery"
 
