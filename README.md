@@ -32,7 +32,7 @@ signed declaration through the configured relays.
 ## Core dependency
 
 Release binaries are produced by the
-[`nostr-yunohost`](https://github.com/nostr-yunohost/nostr-yunohost) core
+[`nostr-yunohost`](https://github.com/imattau/nostr-yunohost) core
 repository. The package should pin a core release and verify its checksum.
 The core release workflow publishes `SHA256SUMS` alongside the
 architecture-specific archives; the wrapper should copy the matching digest

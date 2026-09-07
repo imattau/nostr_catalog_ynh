@@ -8,8 +8,8 @@ maintainers = ["Nostr YunoHost contributors"]
 
 [upstream]
 license = "AGPL-3.0-or-later"
-website = "https://github.com/nostr-yunohost/nostr-yunohost"
-code = "https://github.com/nostr-yunohost/nostr-yunohost"
+website = "https://github.com/imattau/nostr-yunohost"
+code = "https://github.com/imattau/nostr-yunohost"
 
 [integration]
 yunohost = ">= 12.0"

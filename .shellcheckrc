@@ -1,0 +1,20 @@
+# These are expected, structural false positives for YunoHost packaging
+# scripts, not signs of real bugs - see each disable's own comment.
+
+# "<var> is referenced but not assigned" - YunoHost's own runtime
+# environment and the config panel inject $app, $install_dir, and every
+# config-panel field (e.g. $attestation_policy) at runtime; scripts never
+# assign them because YunoHost already has.
+disable=SC2154
+
+# "<var> appears unused" - _common.sh defines several variables (e.g.
+# service_name, installed_apps_file) that are only used after being
+# sourced into the scripts that source it, which ShellCheck can't trace
+# across files without -x.
+disable=SC2034
+
+# "Not following: <path> was not specified as input" - ./_common.sh and
+# /usr/share/yunohost/helpers are sourced by every lifecycle script, but
+# the latter only exists on a real YunoHost server, never in CI, so
+# ShellCheck can never follow it here regardless.
+disable=SC1091
