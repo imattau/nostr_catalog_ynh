@@ -21,6 +21,7 @@ jobs:
               with open(path, "rb") as handle:
                   tomllib.load(handle)
           print("TOML OK")
+          PY
 
       - name: Validate manifest structure
         run: |
@@ -34,7 +35,6 @@ jobs:
           assert manifest["resources"]["install_dir"]["dir"] == "/var/lib/nostr-catalogd"
           assert "default" in tomllib.load(open("tests.toml", "rb"))
           print("Manifest structure OK")
-          PY
           PY
 
       - name: Validate service template
