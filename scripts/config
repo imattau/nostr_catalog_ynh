@@ -47,6 +47,52 @@ set__minimum_endorsements() {
 	ynh_exec_warn_less systemctl restart "$service_name.service"
 }
 
+get__attestation_policy() {
+	local value
+	value="$(ynh_app_setting_get --app="$app" --key=attestation_policy)"
+	echo "${value:-off}"
+}
+
+set__attestation_policy() {
+	ynh_app_setting_set --app="$app" --key=attestation_policy --value="$attestation_policy"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
+get__minimum_attestations() {
+	local value
+	value="$(ynh_app_setting_get --app="$app" --key=minimum_attestations)"
+	echo "${value:-1}"
+}
+
+set__minimum_attestations() {
+	ynh_app_setting_set --app="$app" --key=minimum_attestations --value="$minimum_attestations"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
+get__required_checks() {
+	display_key_list "$(ynh_app_setting_get --app="$app" --key=required_checks)"
+}
+
+set__required_checks() {
+	required_checks="$(normalize_key_list "$required_checks")"
+	ynh_app_setting_set --app="$app" --key=required_checks --value="$required_checks"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
+get__trusted_verifiers() {
+	display_key_list "$(ynh_app_setting_get --app="$app" --key=trusted_verifiers)"
+}
+
+set__trusted_verifiers() {
+	trusted_verifiers="$(normalize_key_list "$trusted_verifiers")"
+	ynh_app_setting_set --app="$app" --key=trusted_verifiers --value="$trusted_verifiers"
+	render_daemon_env
+	ynh_exec_warn_less systemctl restart "$service_name.service"
+}
+
 run__refresh() {
 	# trigger_refresh (via the refresh systemd unit, not a direct call - see
 	# its definition in _common.sh) also regenerates the installed-app

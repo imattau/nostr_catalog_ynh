@@ -132,7 +132,8 @@ PY
 }
 
 render_daemon_env() {
-	local relays trusted_publishers trusted_curators minimum_endorsements
+	local relays trusted_publishers trusted_curators minimum_endorsements attestation_policy
+	local minimum_attestations required_checks trusted_verifiers
 	relays="$(ynh_app_setting_get --app="$app" --key=relays)"
 	trusted_publishers="$(ynh_app_setting_get --app="$app" --key=trusted_publishers)"
 	trusted_curators="$(ynh_app_setting_get --app="$app" --key=trusted_curators)"
@@ -141,6 +142,27 @@ render_daemon_env() {
 	if ! [[ "$minimum_endorsements" =~ ^[1-9][0-9]*$ ]]; then
 		ynh_die "minimum_endorsements must be a positive integer"
 	fi
+	# attestation_policy is unrelated to trusted_curators/minimum_endorsements
+	# above: those gate this server's own kind-30079 curator endorsements,
+	# while this gates how kind-30080 CI-backed attestations from any
+	# verifier affect the generated catalogue (nostr-yunohost's
+	# docs/attestations.md). Empty on an install that predates this setting.
+	attestation_policy="$(ynh_app_setting_get --app="$app" --key=attestation_policy)"
+	attestation_policy="${attestation_policy:-off}"
+	if [[ "$attestation_policy" != "off" && "$attestation_policy" != "prefer" && "$attestation_policy" != "require" ]]; then
+		ynh_die "attestation_policy must be off, prefer, or require"
+	fi
+	# minimum_attestations/required_checks/trusted_verifiers are the plan's
+	# Phase 12 "advanced trust policies" extension to attestation_policy
+	# above - each defaults to its most permissive value, matching the MVP
+	# behavior exactly when left unset.
+	minimum_attestations="$(ynh_app_setting_get --app="$app" --key=minimum_attestations)"
+	minimum_attestations="${minimum_attestations:-1}"
+	if ! [[ "$minimum_attestations" =~ ^[1-9][0-9]*$ ]]; then
+		ynh_die "minimum_attestations must be a positive integer"
+	fi
+	required_checks="$(ynh_app_setting_get --app="$app" --key=required_checks)"
+	trusted_verifiers="$(ynh_app_setting_get --app="$app" --key=trusted_verifiers)"
 
 	install -d -m 0750 "$(dirname "$env_file")"
 	{
@@ -148,6 +170,10 @@ render_daemon_env() {
 		printf 'NOSTR_YNH_TRUSTED_PUBLISHERS=%s\n' "$trusted_publishers"
 		printf 'NOSTR_YNH_TRUSTED_CURATORS=%s\n' "$trusted_curators"
 		printf 'NOSTR_YNH_MINIMUM_ENDORSEMENTS=%s\n' "$minimum_endorsements"
+		printf 'NOSTR_YNH_ATTESTATION_POLICY=%s\n' "$attestation_policy"
+		printf 'NOSTR_YNH_MINIMUM_ATTESTATIONS=%s\n' "$minimum_attestations"
+		printf 'NOSTR_YNH_REQUIRED_CHECKS=%s\n' "$required_checks"
+		printf 'NOSTR_YNH_TRUSTED_VERIFIERS=%s\n' "$trusted_verifiers"
 	} >"$env_file"
 	chmod 0640 "$env_file"
 }

@@ -33,6 +33,36 @@ version = "1.0"
         default = 1
         bind = "null"
 
+    [main.trust]
+        name.en = "Attestation trust policy"
+
+        [main.trust.attestation_policy]
+        ask.en = "Attestation policy"
+        help.en = "off: CI attestations are informational only. prefer: keep every app installable, but mark attested ones verified. require: exclude an app from this catalogue until it has enough acceptable CI attestations for its exact commit."
+        type = "select"
+        choices = ["off", "prefer", "require"]
+        default = "off"
+        bind = "null"
+
+        [main.trust.minimum_attestations]
+        ask.en = "Minimum attestations"
+        help.en = "Only affects prefer/require above, not off. Independent verifiers that must each attest a passing (or required-checks-satisfying) result before a revision counts as verified."
+        type = "number"
+        default = 1
+        bind = "null"
+
+        [main.trust.required_checks]
+        ask.en = "Required checks"
+        help.en = "Only affects prefer/require above, not off. One check name per line (e.g. package_check). When set, an attestation is acceptable only if every named check individually passed - its overall result is ignored, so an unrelated advisory check (e.g. vulnerability_scan) may still fail. Leave empty to judge only the overall result."
+        type = "text"
+        bind = "null"
+
+        [main.trust.trusted_verifiers]
+        ask.en = "Trusted verifiers"
+        help.en = "Only affects prefer/require above, not off. One npub or hex public key per line; only attestations signed by one of these count toward verification. Leave empty to trust any verifier."
+        type = "text"
+        bind = "null"
+
     [main.discovery]
         name.en = "Discovery"
 
