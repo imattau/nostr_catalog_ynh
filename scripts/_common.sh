@@ -11,17 +11,24 @@ refresh_timer_path="/etc/systemd/system/${refresh_timer_name}"
 catalog_config="/etc/yunohost/apps_catalog.yml"
 publisher_key_file="/etc/nostr-catalogd/publisher.key"
 publisher_npub_file="/etc/nostr-catalogd/publisher.npub"
+installed_apps_file="/etc/nostr-catalogd/installed-apps.json"
+snapshot_script_path="/etc/nostr-catalogd/snapshot-installed-apps.sh"
 
 install_refresh_timer() {
 	install -m 0644 "$(dirname "$0")/../conf/nostr_catalog-refresh.service" "$refresh_service_path"
 	install -m 0644 "$(dirname "$0")/../conf/nostr_catalog-refresh.timer" "$refresh_timer_path"
+	install -m 0750 "$(dirname "$0")/../conf/nostr_catalog-snapshot-installed-apps.sh" "$snapshot_script_path"
 	systemctl daemon-reload
 	systemctl enable --now "$refresh_timer_name"
+	# The timer's own first run is OnBootSec=10min away (and won't fire again
+	# until next boot within that window on an already-running system) - run
+	# once now so the attestation admin page isn't empty until then.
+	"$snapshot_script_path" || true
 }
 
 remove_refresh_timer() {
 	systemctl disable --now "$refresh_timer_name" || true
-	rm -f "$refresh_timer_path" "$refresh_service_path"
+	rm -f "$refresh_timer_path" "$refresh_service_path" "$snapshot_script_path"
 	systemctl daemon-reload
 }
 
@@ -46,8 +53,19 @@ unpack_core_release() {
 ensure_publisher_key() {
 	# The key files live outside the install_dir and may not exist on a fresh
 	# install. Create their parent directory before install(1) opens them.
-	install -d -m 0750 "$(dirname "$publisher_key_file")"
+	# Group-owned by $app (not just root:root) so the daemon's own service
+	# user can traverse into it to read publisher.key and installed-apps.json
+	# directly - file-level permissions still gate the actual content.
+	install -d -m 0750 -o root -g "$app" "$(dirname "$publisher_key_file")"
 	if [ -s "$publisher_key_file" ] && [ -s "$publisher_npub_file" ]; then
+		# The always-running daemon (User=nostr_catalog) now reads this file
+		# itself to sign attestations in-process, where previously only
+		# root-run config-panel actions (scripts/config's run__publish) ever
+		# opened it. Fix ownership on every install/upgrade, not just when
+		# the key is first generated below, so upgrades of existing
+		# installs (root:root 0600 from before this feature) also become
+		# readable by the service user.
+		chown "$app:$app" "$publisher_key_file" "$publisher_npub_file"
 		return 0
 	fi
 	local keygen_output
@@ -60,6 +78,7 @@ ensure_publisher_key() {
 	install -m 0644 /dev/null "$publisher_npub_file"
 	jq -er .private_key_hex "$keygen_output" >"$publisher_key_file"
 	jq -er .npub "$keygen_output" >"$publisher_npub_file"
+	chown "$app:$app" "$publisher_key_file" "$publisher_npub_file"
 	rm -f "$keygen_output"
 }
 

@@ -21,9 +21,12 @@ disk = "100M"
 ram.build = "50M"
 ram.runtime = "100M"
 
-# This app has no installation questions: it is a loopback-only daemon whose
-# settings are exposed through config_panel.toml.
+# The catalogue daemon itself remains loopback-only (settings exposed through
+# config_panel.toml as before); the domain/port below are only for the
+# admins-only attestation page (see resources.permissions.main).
 [install]
+    [install.domain]
+    type = "domain"
 
 [resources]
     [resources.sources.main]
@@ -49,3 +52,18 @@ ram.runtime = "100M"
 
     [resources.apt]
         packages = "git, jq"
+
+    [resources.permissions.main]
+        # This app has no public part at all: the daemon's own /v3/apps.json
+        # and /v3/logos/ stay loopback-only (consumed locally by YunoHost's
+        # catalogue registration, never proxied), so there is no visitor
+        # permission to carve an admin exception out of - one single,
+        # admins-only permission and tile is the whole surface.
+        url = "/"
+        allowed = "admins"
+        show_tile = true
+        protected = true
+        label = "Nostr Catalogue Attestations"
+
+    [resources.ports.main]
+        default = 8095

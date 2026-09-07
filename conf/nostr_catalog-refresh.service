@@ -3,4 +3,9 @@ Description=Refresh Nostr YunoHost catalogue
 
 [Service]
 Type=oneshot
+# Refresh the installed-app snapshot the attestation admin page reads before
+# restarting the daemon - the daemon reads this file fresh on every request,
+# so the restart below is not required for it to see new entries, but
+# sharing this timer's cadence avoids a second systemd unit.
+ExecStart=/etc/nostr-catalogd/snapshot-installed-apps.sh
 ExecStart=/usr/bin/systemctl restart nostr_catalog.service

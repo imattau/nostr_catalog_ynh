@@ -33,6 +33,8 @@ if [ ! -e "$catalog_config" ]; then
 fi
 update_catalog_registration add
 
+ynh_add_nginx_config
+
 yunohost service add "$service_name" --description="Nostr-backed YunoHost application catalogue"
 ynh_add_systemd_config
 ynh_systemd_action --service_name="$service_name" --action="start"
