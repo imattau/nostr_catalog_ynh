@@ -21,9 +21,17 @@ install_refresh_timer() {
 	systemctl daemon-reload
 	systemctl enable --now "$refresh_timer_name"
 	# The timer's own first run is OnBootSec=10min away (and won't fire again
-	# until next boot within that window on an already-running system) - run
-	# once now so the attestation admin page isn't empty until then.
-	"$snapshot_script_path" || true
+	# until next boot within that window on an already-running system) - kick
+	# it off now so the attestation admin page isn't empty until then. Must
+	# go through systemctl (out-of-process), not a direct call: this install/
+	# upgrade script is itself running inside a live yunohost operation, and
+	# the snapshot script's own `yunohost app list`/`app info` calls would
+	# nest inside that same lock and fail near-instantly.
+	trigger_refresh
+}
+
+trigger_refresh() {
+	systemctl start --no-block "$refresh_service_name" || true
 }
 
 remove_refresh_timer() {

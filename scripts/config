@@ -48,13 +48,12 @@ set__minimum_endorsements() {
 }
 
 run__refresh() {
-	# Also regenerate the installed-app snapshot the attestation admin page
-	# reads (normally the root-run refresh timer's job) - otherwise this
-	# button only refreshes the catalogue's own relay-fetched declarations
-	# and leaves that page showing whatever the timer last wrote, possibly
-	# hours stale.
-	"$snapshot_script_path" || true
-	ynh_exec_warn_less systemctl restart "$service_name.service"
+	# trigger_refresh (via the refresh systemd unit, not a direct call - see
+	# its definition in _common.sh) also regenerates the installed-app
+	# snapshot the attestation admin page reads, and itself restarts
+	# nostr_catalog.service once done, so a separate restart here would just
+	# be redundant with (and race) the one the refresh unit already does.
+	trigger_refresh
 }
 
 get__publisher_npub() {
